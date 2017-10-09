@@ -1,34 +1,28 @@
-# Microservice
+# svc-template
+A generic microservice written in golang
 
-This is an example microservice application.  
+# What does it do?
 
-## Architecture
+This package provides a simple, extensible framework for creating microservices.
 
-We're now going to go over the directory structure.
+# But Microservice is such a generic term...
 
-### src
+That's right!
 
-`src` contains all of the code used to "power" the microservice.
+A few assumptions have been made about microservices.
 
-The directory contains `bus.go`, which is a package designed to connect a service to rabbitmq, a pub/sub service used to buffer 1-1, 1-N, and N-1 message passing.
+Namely, all microservices
 
-It also contains `listeners` and `publishers` which are described later on in detail.
+1. Listen for TCP requests on a given port.
+2. Handle those requests with some internal logic.
+3. Send TCP requests to other microservices.
 
-Finally, it contains `queues`, which is a directory containing 
+The goal of this project is to simplify steps 1 and 2 as much as possible, by making use of sensible defaults, 
 
-## Usage
+However, this project has been designed in such a way as to make its composite pieces as modular as possible.
 
-As a user, you want easy access to two functions.  Both of these functions touch queues, which need to be instantiated in your main method.
+# Handling inter-service Communication
 
-Before calling init, you need to declare some queues.  After the Bus is initiated, publishes and subscribes may be called without restriction.
+RabbitMQ is the communication method of choice, because of the nice guarantees it makes about message delivery.
 
-One can access these by importing `bus.go`, which gives access to `DeclareQueue`, `Publish` and `Subscribe`.
-
-
-
-### Listens
-
-Inside `src`, you'll find a `listeners` directory.  To create a new listener handler, simply create a new file in here, following the structure of the example provided.  
-
-### Publishes
-
+However, you could just as easily replace the
